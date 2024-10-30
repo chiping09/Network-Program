@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>ตั้งค่าอุปกรณ์</title>
+</head>
+<body>
+    <h1>ตั้งค่าอุปกรณ์</h1>
+    <a href="{{ url_for('index') }}">กลับไปยังหน้าแรก</a>
+    
+    <h1>Network Automation</h1>
+    <!-- Dropdown สำหรับเลือก IP อุปกรณ์ -->
+    <select id="ip-select" required>
+        <option value="">เลือก IP อุปกรณ์</option>
+        <option value="172.18.7.87">172.18.7.87</option>
+        <option value="192.168.1.1">192.168.1.1</option>
+        <option value="192.168.0.1">192.168.0.1</option>
+        <!-- เพิ่ม IP อื่น ๆ ตามต้องการ -->
+    </select>
+
+    <input type="text" id="username-input" placeholder="Username" required>
+    <input type="password" id="password-input" placeholder="Password" required>
+
+    <!-- Dropdown สำหรับเลือก interface -->
+    <select id="interface-select">
+        <option value="loopback0">Loopback 0</option>
+        <option value="GigabitEthernet0/0">GigabitEthernet0/0</option>
+        <option value="FastEthernet0/1">FastEthernet0/1</option>
+        <option value="vlan 1">vlan 1</option>
+        <!-- เพิ่ม interface อื่น ๆ ตามต้องการ -->
+    </select>
+
+    <!-- ช่องสำหรับป้อน IP และ subnet -->
+    <input type="text" id="ip-address-input" placeholder="IP Address (192.168.1.1)" required>
+    <input type="text" id="subnet-mask-input" placeholder="Subnet Mask (255.255.255.0)" required>
+
+    <!-- Dropdown สำหรับเลือกสถานะ -->
+    <select id="status-select">
+        <option value="up">Up</option>
+        <option value="down">Down</option>
+    </select>
+    
+    <button id="set-command-button">ตั้งค่า</button>
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('set-command-button').addEventListener('click', function() {
+            const ip = document.getElementById('ip-select').value; // ใช้ IP จาก dropdown
+            const username = document.getElementById('username-input').value;
+            const password = document.getElementById('password-input').value;
+            const selectedInterface = document.getElementById('interface-select').value;
+            const ipAddress = document.getElementById('ip-address-input').value;
+            const subnetMask = document.getElementById('subnet-mask-input').value;
+            const status = document.getElementById('status-select').value;
+
+            fetch('/config_device', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ ip, username, password, interface: selectedInterface, ipAddress, subnetMask, status }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const responseDiv = document.getElementById('response');
+                if (data.success) {
+                    responseDiv.innerHTML = 'ตั้งค่าเรียบร้อย: <pre>' + data.output + '</pre>';
+                } else {
+                    responseDiv.innerHTML = 'เกิดข้อผิดพลาด: ' + data.error;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

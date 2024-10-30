@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Configuration</title>
+</head>
+<body>
+    <h1>Configure Device via SSH or Telnet</h1>
+    <form method="POST" action="/other_page">
+        <label for="ip">Device IP:</label>
+        <input type="text" id="ip" name="ip" required><br><br>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <label for="hostname">Hostname:</label>
+        <input type="text" id="hostname" name="hostname" required><br><br>
+
+        <label for="domain">Domain Name:</label>
+        <input type="text" id="domain" name="domain" required><br><br>
+
+        <label for="connection_type">Connection Type:</label>
+        <select id="connection_type" name="connection_type" required>
+            <option value="ssh">SSH</option>
+            <option value="telnet">Telnet</option>
+            <option value="all">All</option>
+        </select><br><br>
+
+        <button type="submit">Configure Device</button>
+    </form>
+
+    {% if result %}
+        <h2>Result:</h2>
+        <pre>{{ result }}</pre>
+    {% endif %}
+</body>
+</html>

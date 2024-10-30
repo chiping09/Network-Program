@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Network Automation - หน้าแรก</title>
+</head>
+<body>
+    <h1>Network Automation</h1>
+    <h2>ยินดีต้อนรับสู่หน้าแรก</h2>
+    <p>เลือกตัวเลือกที่คุณต้องการตั้งค่าด้านล่าง:</p>
+
+    <ul>
+        <li><a href="{{ url_for('device_config') }}">ตั้งค่าอุปกรณ์</a></li>
+        <li><a href="{{ url_for('other_page') }}">การตั้งค่าอื่น ๆ</a></li>
+    </ul>
+</body>
+</html>
